@@ -36,7 +36,7 @@ setup(
     install_requires=requirements,
     extras_require={
         "spacy": ["spacy"],
-        "elmo": ["allennlp==1.5.0"],
+        "elmo": ["allennlp>=1.5.0"],
         "noising": ["unidecode"],
         "flask": ["flask_cors"]
     },
