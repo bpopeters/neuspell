@@ -8,7 +8,8 @@ from tqdm import tqdm
 sys.path.append("/..")
 from ..seq_modeling.helpers import load_data
 from ..commons import spacy_tokenizer
-from scripts.evals import get_metrics
+from .seq_modeling.evals import get_metrics
+
 
 """ corrector module """
 
