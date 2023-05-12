@@ -24,14 +24,14 @@ import aspell
 from tqdm import tqdm
 
 from .commons import spacy_tokenizer
-from .seq_modeling.evals import get_metrics
-from .seq_modeling.helpers import load_data
+from ..seq_modeling.evals import get_metrics
+from ..seq_modeling.helpers import load_data
 
 """ corrector module """
 
 
 class AspellChecker:
-    
+
     def __init__(self, tokenize=True):
         self.tokenize = tokenize
         self.model = aspell.Speller()
