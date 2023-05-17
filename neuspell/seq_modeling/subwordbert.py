@@ -1,8 +1,14 @@
 import time
+import os
+
+from tqdm import tqdm
+import torch
 
 from .downloads import download_pretrained_model
 from .evals import get_metrics
-from .helpers import *
+from .helpers import batch_iter, get_model_nparams, labelize, \
+    untokenize_without_unks, untokenize_without_unks2, \
+    bert_tokenize_for_valid_examples
 from .models import SubwordBert
 
 
@@ -62,7 +68,7 @@ def load_pretrained_large(model, checkpoint_path, optimizer=None, device='cuda')
 def model_predictions(model, data, vocab, device, batch_size=16):
     """
     model: an instance of SubwordBert
-    data: list of tuples, with each tuple consisting of correct and incorrect 
+    data: list of tuples, with each tuple consisting of correct and incorrect
             sentence string (would be split at whitespaces)
     """
 
@@ -107,7 +113,7 @@ def model_predictions(model, data, vocab, device, batch_size=16):
 def model_inference(model, data, topk, device, batch_size=16, vocab_=None):
     """
     model: an instance of SubwordBert
-    data: list of tuples, with each tuple consisting of correct and incorrect 
+    data: list of tuples, with each tuple consisting of correct and incorrect
             sentence string (would be split at whitespaces)
     topk: how many of the topk softmax predictions are considered for metrics calculations
     """
@@ -186,8 +192,8 @@ def model_inference(model, data, topk, device, batch_size=16, vocab_=None):
         '''
         # update progress
         progressBar(batch_id+1,
-                    int(np.ceil(len(data) / VALID_batch_size)), 
-                    ["batch_time","batch_loss","avg_batch_loss","batch_acc","avg_batch_acc"], 
+                    int(np.ceil(len(data) / VALID_batch_size)),
+                    ["batch_time","batch_loss","avg_batch_loss","batch_acc","avg_batch_acc"],
                     [time.time()-st_time,batch_loss,valid_loss/(batch_id+1),None,None])
         '''
     print(f"\nEpoch {None} valid_loss: {valid_loss / (batch_id + 1)}")
